@@ -21,3 +21,6 @@ Configuration
 
   g:sparkupNextMapping (Default: '<c-n>') -
     Mapping used to jump to the next empty tag/attribute.
+
+  g:sparkupPreviousMapping (Default: '<c-p>') -
+    Mapping used to jump to the previous empty tag/attribute.
