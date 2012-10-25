@@ -1,4 +1,7 @@
 " Sparkup
+" Notes:
+"    (romainl:2012.10.25) Added SparkupPrevious() and the corresponding mappings.
+"
 " Installation:
 "    Copy the contents of vim/ftplugin/ to your ~/.vim/ftplugin directory.
 "
@@ -17,6 +20,9 @@
 "
 "   g:sparkupNextMapping (Default: '<c-n>') -
 "     Mapping used to jump to the next empty tag/attribute.
+"
+"   g:sparkupPreviousMapping (Default: '<c-p>') -
+"     Mapping used to jump to the previous empty tag/attribute.
 
 if !exists('g:sparkupExecuteMapping')
   let g:sparkupExecuteMapping = '<c-e>'
@@ -26,10 +32,16 @@ if !exists('g:sparkupNextMapping')
   let g:sparkupNextMapping = '<c-n>'
 endif
 
-exec 'nmap <buffer> ' . g:sparkupExecuteMapping . ' :call <SID>Sparkup()<cr>'
-exec 'imap <buffer> ' . g:sparkupExecuteMapping . ' <c-g>u<Esc>:call <SID>Sparkup()<cr>'
-exec 'nmap <buffer> ' . g:sparkupNextMapping . ' :call <SID>SparkupNext()<cr>'
-exec 'imap <buffer> ' . g:sparkupNextMapping . ' <c-g>u<Esc>:call <SID>SparkupNext()<cr>'
+if !exists('g:sparkupPreviousMapping')
+  let g:sparkupPreviousMapping = '<c-p>'
+endif
+
+exec 'nnoremap <buffer> ' . g:sparkupExecuteMapping . ' :call <SID>Sparkup()<cr>'
+exec 'inoremap <buffer> ' . g:sparkupExecuteMapping . ' <c-g>u<Esc>:call <SID>Sparkup()<cr>'
+exec 'nnoremap <buffer> ' . g:sparkupNextMapping . ' :call <SID>SparkupNext()<cr>'
+exec 'inoremap <buffer> ' . g:sparkupNextMapping . ' <c-g>u<Esc>:call <SID>SparkupNext()<cr>'
+exec 'nnoremap <buffer> ' . g:sparkupPreviousMapping . ' :call <SID>SparkupPrevious()<cr>'
+exec 'inoremap <buffer> ' . g:sparkupPreviousMapping . ' <c-g>u<Esc>:call <SID>SparkupPrevious()<cr>'
 
 if exists('*s:Sparkup')
     finish
@@ -65,6 +77,17 @@ endfunction
 function! s:SparkupNext()
     " 1: empty tag, 2: empty attribute, 3: empty line
     let n = search('><\/\|\(""\)\|^\s*$', 'Wp')
+    if n == 3
+        startinsert!
+    else
+        execute 'normal l'
+        startinsert
+    endif
+endfunction
+
+function! s:SparkupPrevious()
+    " 1: empty tag, 2: empty attribute, 3: empty line
+    let n = search('><\/\|\(""\)\|^\s*$', 'b', 'Wp')
     if n == 3
         startinsert!
     else
