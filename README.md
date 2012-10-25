@@ -1,6 +1,13 @@
 Sparkup
 =======
 
+---
+
+This is a fork of the original Sparkup by Rico Sta. Cruz. The purpose of this fork is only 
+to add `SparkupPrevious()` and the corresponding mappings. Done.
+
+---
+
 **Sparkup lets you write HTML code faster.** Don't believe us?
 [See it in action!](http://www.youtube.com/watch?v=Jw3jipcenKc)
 
